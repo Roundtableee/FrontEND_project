@@ -1,8 +1,7 @@
-// src/pages/LoginPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function LoginPage() {
+function LoginPage({ onLogin }) {
   const navigate = useNavigate();
 
   const [email, setEmail]  = useState('');
@@ -12,35 +11,31 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
-    // ตัวอย่างใน LoginPage.js
-try {
-  const res = await fetch('http://localhost:3000/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
-  const data = await res.json();
+    try {
+      const res = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+      // สมมติ data = { token, user }
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
 
-  if (!res.ok) {
-    throw new Error(data.message || 'Login failed');
-  }
+      alert(`Welcome, ${data.user?.name || 'User'}!`);
 
-  // สมมติ data = { token: 'xxxxx' }
-  if (!data.token) {
-    throw new Error('No token in response');
-  }
+      // เรียก onLogin เพื่อให้ App.js อัปเดต token ใน state
+      if (onLogin) {
+        onLogin();
+      }
 
-  // บันทึก token ลง localStorage
-  localStorage.setItem('token', data.token);
-
-  // แทนที่จะ alert ชื่อ user, เปลี่ยนเป็น alert ธรรมดา
-  alert('Login success!');
-  navigate('/hotels');
-
-} catch (err) {
-  setError(err.message);
-}
-
+      navigate('/hotels');
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
