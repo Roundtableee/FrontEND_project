@@ -1,4 +1,10 @@
-@import "tailwindcss";
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ใส่ style อื่น ๆ (ถ้ามี) */
+
 
 :root {
   --background: #ffffff;
