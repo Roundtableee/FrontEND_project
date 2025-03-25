@@ -6,11 +6,18 @@ import style from './page.module.css';
 
 export default function RegisterPage() {
   const router = useRouter();
+
+  // State สำหรับฟอร์ม
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [email, setEmail]  = useState('');
-  const [password, setPassword]  = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // State สำหรับข้อความ error อื่น ๆ ที่มาจากเซิร์ฟเวอร์
   const [error, setError] = useState(null);
+
+  // State สำหรับ error เฉพาะกรณีเบอร์โทร
+  const [phoneError, setPhoneError] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -21,10 +28,17 @@ export default function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError(null);
+    setError(null);       // เคลียร์ error อื่น ๆ
+    setPhoneError('');    // เคลียร์ phoneError
+
+    // ตรวจสอบเบอร์โทรให้ครบ 10 หลัก
+    if (phone.length !== 10) {
+      setPhoneError('Phone number must be 10 digits.');
+      return; // หยุดการทำงาน ไม่เรียก API ต่อ
+    }
 
     try {
-      const res = await fetch('http://localhost:5000/auth/register', {
+      const res = await fetch('https://backendproject-production-721b.up.railway.app/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -50,6 +64,8 @@ export default function RegisterPage() {
     <div className={style.container}>
       <div className={style.card}>
         <h2 className={style.header}>Register</h2>
+
+        {/* แสดง error จากเซิร์ฟเวอร์ (เช่น email ซ้ำ, ฯลฯ) */}
         {error && <p className={style.error}>{error}</p>}
 
         <form onSubmit={handleRegister} className={style.form}>
@@ -71,6 +87,8 @@ export default function RegisterPage() {
               onChange={(e) => setPhone(e.target.value)}
               required
             />
+            {/* ถ้า phoneError ไม่ว่าง ให้แสดงข้อความเตือนใต้ช่องเบอร์โทร */}
+            {phoneError && <p className={style.error}>{phoneError}</p>}
           </div>
 
           <div className={style.inputGroup}>

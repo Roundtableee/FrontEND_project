@@ -1,34 +1,59 @@
-.body{
+.body {
     background-color: #f3f4f6;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     width: 100%;
-}
-.header{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin-top: 10px;
+}
+
+.header {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
     margin-bottom: 20px;
+    color: #333;
     -webkit-text-stroke: 1px black;
-    font-size: 50px;
 }
 
 .card {
     background-color: antiquewhite;
-    margin: 20px;
-    padding: 10px;
+    width: 90%;
+    /* max-width: 600px; */
     border-radius: 20px;
-    color: #000;
-    display: flex;  /* 🔹 จัดให้องค์ประกอบเรียงแนวนอน */
-    align-items: center;
-    overflow: hidden;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    color: black;
 }
+
 .cardImg {
-    width: 20%; /* 🔹 กำหนดขนาดรูป */
-    height: 100%; /* 🔹 กำหนดขนาดรูป */
+    width: 80%;
+    height: 500px;
     object-fit: cover;
-    border-radius: 15px; /* 🔹 ทำให้ขอบมน */
-    margin-right: 15px; /* 🔹 เพิ่มระยะห่างระหว่างรูปและข้อความ */
-    position: relative;
+    border-radius: 15px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* ปุ่ม Booking */
+.bookBtn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.bookBtn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
 }

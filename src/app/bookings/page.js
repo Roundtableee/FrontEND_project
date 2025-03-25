@@ -46,7 +46,7 @@ export default function BookingPage() {
   // ฟังก์ชัน fetchHotels, fetchBookings
   const fetchHotels = async () => {
     try {
-      const res = await fetch('http://localhost:5000/hotels', {
+      const res = await fetch('https://backendproject-production-721b.up.railway.app/hotels', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -59,7 +59,7 @@ export default function BookingPage() {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch('http://localhost:5000/bookings', {
+      const res = await fetch('https://backendproject-production-721b.up.railway.app/bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -90,7 +90,7 @@ export default function BookingPage() {
     const checkOutISO = checkOut.toISOString();
 
     try {
-      const res = await fetch('http://localhost:5000/bookings', {
+      const res = await fetch('https://backendproject-production-721b.up.railway.app/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ export default function BookingPage() {
   const handleDeleteBooking = async (bookingId) => {
     if (!window.confirm('Delete booking?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
+      const res = await fetch(`https://backendproject-production-721b.up.railway.app/bookings/${bookingId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -145,7 +145,7 @@ export default function BookingPage() {
     if (!newCheckInStr || !newCheckOutStr) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/bookings/${booking._id}`, {
+      const res = await fetch(`https://backendproject-production-721b.up.railway.app/bookings/${booking._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

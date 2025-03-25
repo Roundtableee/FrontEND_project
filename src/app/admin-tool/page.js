@@ -38,7 +38,7 @@ export default function AdminToolPage() {
     // ดึง bookings
     const fetchAllBookings = async () => {
       try {
-        const res = await fetch('http://localhost:5000/bookings', {
+        const res = await fetch('https://backendproject-production-721b.up.railway.app/bookings', {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -52,7 +52,7 @@ export default function AdminToolPage() {
     // ดึง hotels
     const fetchHotels = async () => {
       try {
-        const res = await fetch('http://localhost:5000/hotels', {
+        const res = await fetch('https://backendproject-production-721b.up.railway.app/hotels', {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -70,7 +70,7 @@ export default function AdminToolPage() {
   // re-fetch bookings (ใช้หลัง update/delete)
   const reloadBookings = async () => {
     try {
-      const res = await fetch('http://localhost:5000/bookings', {
+      const res = await fetch('https://backendproject-production-721b.up.railway.app/bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -83,12 +83,17 @@ export default function AdminToolPage() {
 
   // Update
   const handleUpdateBooking = async (booking) => {
-    const newCheckIn = prompt('New CheckIn:', booking.checkIn);
-    const newCheckOut = prompt('New CheckOut:', booking.checkOut);
+    // ดึงแค่ส่วน YYYY-MM-DD จากเดิม (booking.checkIn)
+    const defaultCheckIn = booking.checkIn ? booking.checkIn.slice(0,10) : '';
+    const defaultCheckOut = booking.checkOut ? booking.checkOut.slice(0,10) : '';
+
+    // prompt เฉพาะ YYYY-MM-DD
+    const newCheckIn = prompt('New CheckIn (YYYY-MM-DD):', defaultCheckIn);
+    const newCheckOut = prompt('New CheckOut (YYYY-MM-DD):', defaultCheckOut);
     if (!newCheckIn || !newCheckOut) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/bookings/${booking._id}`, {
+      const res = await fetch(`https://backendproject-production-721b.up.railway.app/bookings/${booking._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +116,7 @@ export default function AdminToolPage() {
     if (!window.confirm('Are you sure to delete booking?')) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
+      const res = await fetch(`https://backendproject-production-721b.up.railway.app/bookings/${bookingId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -143,6 +148,12 @@ export default function AdminToolPage() {
 
     return matchUser && matchHotel;
   });
+
+  // ฟังก์ชัน formatDate -> ตัดเวลาออก แสดงแค่ YYYY-MM-DD
+  const formatDate = (isoStr) => {
+    if (!isoStr) return '';
+    return isoStr.slice(0,10); // ตัดเอาแค่ส่วน YYYY-MM-DD
+  };
 
   return (
     <div className={styles.adminToolBackground}>
@@ -189,8 +200,9 @@ export default function AdminToolPage() {
                   {' '}({b.userId?.email || 'NoEmail'})
                 </p>
                 <p><strong>Hotel:</strong> {findHotelName(b.hotelId)}</p>
-                <p><strong>CheckIn:</strong> {b.checkIn}</p>
-                <p><strong>CheckOut:</strong> {b.checkOut}</p>
+                {/* ตรงนี้ใช้ formatDate เพื่อตัดเวลาออก */}
+                <p><strong>CheckIn:</strong> {formatDate(b.checkIn)}</p>
+                <p><strong>CheckOut:</strong> {formatDate(b.checkOut)}</p>
                 <div className="mt-2 space-x-2">
                   <Button
                     variant="outlined"

@@ -21,7 +21,7 @@ export default function HotelPage() {
 
     const fetchHotels = async () => {
       try {
-        const res = await fetch('http://localhost:5000/hotels', {
+        const res = await fetch('https://backendproject-production-721b.up.railway.app/hotels', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
@@ -55,7 +55,7 @@ export default function HotelPage() {
     );
 
     try {
-      const res = await fetch(`http://localhost:5000/hotels/${hotelId}/rating`, {
+      const res = await fetch(`https://backendproject-production-721b.up.railway.app/${hotelId}/rating`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export default function HotelPage() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to update rating');
+        throw new Error();
       }
 
       const updatedHotel = await res.json();
@@ -102,7 +102,7 @@ export default function HotelPage() {
               <Rating
                 name={`rating-${hotel._id}`}
                 value={hotel.averageRating}
-                precision={0.5}
+                precision={1}
                 onChange={(event, newValue) => handleRatingChange(hotel._id, newValue)}
               />
               <p>THB {hotel.dailyrate}</p>

@@ -23,7 +23,7 @@ export default function LoginPage() {
     setError(null);
     try {
       // Call the login API
-      const res = await fetch('http://localhost:5000/auth/login', {
+      const res = await fetch('https://backendproject-production-721b.up.railway.app/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
