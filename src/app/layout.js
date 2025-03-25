@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import './globals.css';
+import style from './layout.module.css';
 
 export default function RootLayout({ children }) {
   const router = useRouter();
@@ -55,37 +56,35 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body>
-        {/* NavBar */}
-        <nav className="m-4 space-x-4">
-          {token ? (
-            <button
-              onClick={handleLogout}
-              className="text-blue-600 underline"
-            >
-              Logout
-            </button>
-          ) : (
-            <Link href="/login" className="text-blue-600 underline">
-              Login
-            </Link>
-          )}
+      <body className={style.body}>
+        <nav className={style.navbar}>
+            <Link href="/" className={style.navlink}>Home</Link>
+            <Link href="/hotels" className={style.navlink}>Hotels</Link>
+            <Link href="/bookings" className={style.navlink}>Bookings</Link>
 
-          <Link href="/register">Register</Link>
-          <Link href="/hotels">Hotels</Link>
-          <Link href="/bookings">My Bookings</Link>
-
-          {/* แสดง Admin Tools ถ้า role=admin และมี token */}
-          {role === 'admin' && token && (
-            <Link href="/admin-tool" className="text-red-500">
-              Admin Tools
-            </Link>
-          )}
+            {/* แสดง Admin Tools ถ้า role=admin และมี token */}
+            {role === 'admin' && token && (
+              <Link href="/admin-tool" className={style.adminlink}>
+                Admin Tools
+              </Link>
+            )}
+            <Link href="/register" className={style.navlink}>Register</Link>
+            {token ? (
+              <button
+                onClick={handleLogout}
+                className={style.loglink}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link href="/login" className={style.loglink}>
+                Login
+              </Link>
+            )}
         </nav>
 
-        <main>
-          {children}
-        </main>
+        
+        {children}
       </body>
     </html>
   );

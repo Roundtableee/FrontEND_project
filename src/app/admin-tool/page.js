@@ -38,7 +38,7 @@ export default function AdminToolPage() {
     // ดึง bookings
     const fetchAllBookings = async () => {
       try {
-        const res = await fetch('http://localhost:3000/bookings', {
+        const res = await fetch('http://localhost:5000/bookings', {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -52,7 +52,7 @@ export default function AdminToolPage() {
     // ดึง hotels
     const fetchHotels = async () => {
       try {
-        const res = await fetch('http://localhost:3000/hotels', {
+        const res = await fetch('http://localhost:5000/hotels', {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -70,7 +70,7 @@ export default function AdminToolPage() {
   // re-fetch bookings (ใช้หลัง update/delete)
   const reloadBookings = async () => {
     try {
-      const res = await fetch('http://localhost:3000/bookings', {
+      const res = await fetch('http://localhost:5000/bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -88,7 +88,7 @@ export default function AdminToolPage() {
     if (!newCheckIn || !newCheckOut) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/bookings/${booking._id}`, {
+      const res = await fetch(`http://localhost:5000/bookings/${booking._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export default function AdminToolPage() {
     if (!window.confirm('Are you sure to delete booking?')) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/bookings/${bookingId}`, {
+      const res = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });

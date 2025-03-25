@@ -1,6 +1,8 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import style from './page.module.css';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -22,7 +24,7 @@ export default function RegisterPage() {
     setError(null);
 
     try {
-      const res = await fetch('http://localhost:3000/auth/register', {
+      const res = await fetch('http://localhost:5000/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -45,56 +47,57 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="m-8">
-      <h2 className="text-xl font-semibold mb-4">Register</h2>
-      {error && <p className="text-red-500">{error}</p>}
+    <div className={style.container}>
+      <div className={style.card}>
+        <h2 className={style.header}>Register</h2>
+        {error && <p className={style.error}>{error}</p>}
 
-      <form onSubmit={handleRegister} className="space-y-4">
-        <div>
-          <label className="block">Name:</label>
-          <input
-            className="border p-1 rounded"
-            value={name}
-            onChange={(e)=>setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="block">Phone:</label>
-          <input
-            className="border p-1 rounded"
-            value={phone}
-            onChange={(e)=>setPhone(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="block">Email:</label>
-          <input
-            className="border p-1 rounded"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-            type="email"
-            required
-          />
-        </div>
-        <div>
-          <label className="block">Password:</label>
-          <input
-            className="border p-1 rounded"
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-            type="password"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="px-3 py-1 bg-green-500 text-white rounded"
-        >
-          Register
-        </button>
-      </form>
+        <form onSubmit={handleRegister} className={style.form}>
+          <div className={style.inputGroup}>
+            <label className={style.label}>Name:</label>
+            <input
+              className={style.input}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className={style.inputGroup}>
+            <label className={style.label}>Phone:</label>
+            <input
+              className={style.input}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className={style.inputGroup}>
+            <label className={style.label}>Email:</label>
+            <input
+              className={style.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              required
+            />
+          </div>
+
+          <div className={style.inputGroup}>
+            <label className={style.label}>Password:</label>
+            <input
+              className={style.input}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              required
+            />
+          </div>
+
+          <button type="submit" className={style.submitButton}>Register</button>
+        </form>
+      </div>
     </div>
   );
 }

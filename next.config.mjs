@@ -1,8 +1,12 @@
 // next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // เปิด/ปิดฟีเจอร์ตามต้องการ
-    // reactStrictMode: true,
+    images: {
+      domains: ['lh3.googleusercontent.com',
+         'drive.google.com',
+          'i.imgur.com',
+           'imgur.com'],
+    },
   };
   
   export default nextConfig;

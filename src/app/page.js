@@ -1,18 +1,34 @@
 "use client";
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
+import style from './page.module.css';
+import Image from 'next/image';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 export default function HomePage() {
-  const router = useRouter();
 
-  useEffect(() => {
-    router.replace('/login');
-  }, [router]);
+  const banners = [
+    '/img/banner1.jpg',
+  ]
+  const [index, setIndex] = useState(0);
 
   return (
-    <div className="m-8">
-      <h1 className="text-2xl font-bold">Welcome to Next.js + Tailwind 4.0</h1>
-      <p>Redirecting to /login...</p>
-    </div>
+    <body>
+      <div className={style.banner} onClick={() => { setIndex((index+1)%banners.length) }}>
+        <Image src={banners[index%banners.length]} //banners[index%banners.length]
+          alt='cover'
+          fill
+          priority
+          objectFit='cover'
+          className={style.bannerImg}/>
+          <h1 className={style.bannerText1}>
+            Hotel Booking
+          </h1>
+          <h3 className={style.bannerText2}>
+            skibidi toilet
+          </h3>
+      </div>
+    </body>
   );
 }

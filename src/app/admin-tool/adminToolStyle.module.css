@@ -4,7 +4,7 @@
 .adminToolBackground {
     position: relative;
     min-height: 100vh;             /* ให้ยาวเต็มหน้าจอแนวตั้ง */
-    background-image: url('/adminbackground.jpg');
+    background-image: url('/img/adminbackground.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

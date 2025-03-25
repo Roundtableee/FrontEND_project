@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import style from './page.module.css';
 
 // MUI
 import {
@@ -30,7 +31,7 @@ export default function BookingPage() {
   const [checkOut, setCheckOut] = useState(null);
 
   // อ่าน token จาก localStorage
-  const token = (typeof window !== 'undefined') ? localStorage.getItem('token') || '' : '';
+  const token = (typeof window !== 'undefined') ? localStorage.getItem('token')  : '';
 
   // ถ้าไม่มี token -> บอกให้ login ก่อน
   if (!token) {
@@ -45,7 +46,7 @@ export default function BookingPage() {
   // ฟังก์ชัน fetchHotels, fetchBookings
   const fetchHotels = async () => {
     try {
-      const res = await fetch('http://localhost:3000/hotels', {
+      const res = await fetch('http://localhost:5000/hotels', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -58,7 +59,7 @@ export default function BookingPage() {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch('http://localhost:3000/bookings', {
+      const res = await fetch('http://localhost:5000/bookings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -89,7 +90,7 @@ export default function BookingPage() {
     const checkOutISO = checkOut.toISOString();
 
     try {
-      const res = await fetch('http://localhost:3000/bookings', {
+      const res = await fetch('http://localhost:5000/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ export default function BookingPage() {
   const handleDeleteBooking = async (bookingId) => {
     if (!window.confirm('Delete booking?')) return;
     try {
-      const res = await fetch(`http://localhost:3000/bookings/${bookingId}`, {
+      const res = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -144,7 +145,7 @@ export default function BookingPage() {
     if (!newCheckInStr || !newCheckOutStr) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/bookings/${booking._id}`, {
+      const res = await fetch(`http://localhost:5000/bookings/${booking._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -179,15 +180,15 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="m-8">
-      <h2 className="text-xl font-semibold mb-4">My Bookings</h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className={style.body}>
+      <h2 className={style.header}>My Bookings</h2>
+      {error && <p className={style.error}>{error}</p>}
 
       {/* ฟอร์มสร้าง Booking */}
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <form
           onSubmit={handleCreateBooking}
-          className="border p-4 mb-4 rounded space-y-4"
+          className={style.element2}
         >
           <FormControl fullWidth>
             <InputLabel id="hotel-label">Select Hotel</InputLabel>
@@ -196,7 +197,7 @@ export default function BookingPage() {
               label="Select Hotel"
               value={selectedHotel}
               onChange={(e) => setSelectedHotel(e.target.value)}
-            >
+              >
               {hotels.map((ht) => (
                 <MenuItem key={ht._id} value={ht._id}>
                   {ht.name}
@@ -210,14 +211,14 @@ export default function BookingPage() {
             value={checkIn}
             onChange={(newVal) => setCheckIn(newVal)}
             renderInput={(params) => <TextField {...params} fullWidth />}
-          />
+            />
 
           <DatePicker
             label="CheckOut"
             value={checkOut}
             onChange={(newVal) => setCheckOut(newVal)}
             renderInput={(params) => <TextField {...params} fullWidth />}
-          />
+            />
 
           <Button type="submit" variant="contained" color="primary">
             Create Booking
@@ -229,26 +230,26 @@ export default function BookingPage() {
       {bookingList.length === 0 ? (
         <p>No bookings found.</p>
       ) : (
-        <div className="grid gap-4">
+        <div className={style.element3}>
           {bookingList.map((b) => (
-            <div key={b._id} className="border p-4 rounded">
+            <div key={b._id} className={style.element4}>
               <p><strong>Hotel:</strong> {findHotelName(b.hotelId)}</p>
               <p><strong>CheckIn:</strong> {formatDate(b.checkIn)}</p>
               <p><strong>CheckOut:</strong> {formatDate(b.checkOut)}</p>
               <p><strong>Status:</strong> {b.status || 'N/A'}</p>
-              <div className="mt-2 space-x-2">
+              <div className={style.element5}>
                 <Button
                   variant="outlined"
                   color="warning"
                   onClick={() => handleUpdateBooking(b)}
-                >
+                  >
                   Update
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
                   onClick={() => handleDeleteBooking(b._id)}
-                >
+                  >
                   Delete
                 </Button>
               </div>
