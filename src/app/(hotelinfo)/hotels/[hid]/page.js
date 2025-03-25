@@ -58,7 +58,7 @@ export default function HotelInfoPage() {
     );
   
     try {
-      const res = await fetch(`http://localhost:5000/hotels/${hid}/rating`, {
+      const res = await fetch(`https://backendproject-production-721b.up.railway.app/hotels/${hid}/rating`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
