@@ -26,7 +26,7 @@ export default function HotelInfoPage() {
       }
 
       try {
-        const res = await fetch(`http://localhost:5000/hotels/${hid}`, {
+        const res = await fetch(`https://backendproject-production-721b.up.railway.app/hotels/${hid}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -97,12 +97,6 @@ export default function HotelInfoPage() {
           <p><strong>Postal Code:</strong> {hotel.postalcode}</p>
           <p><strong>Phone:</strong> {hotel.phone}</p>
           <p><strong>Daily Rate:</strong> {hotel.dailyrate} THB</p>
-          <Rating
-                name={`rating-${hotel._id}`}
-                value={hotel.averageRating || 0}
-                precision={1}
-                onChange={(event, newValue) => handleRatingChange(hotel._id, newValue)}
-          />
           <Link href={`/bookings`}>
           <button className={style.bookBtn}>Booking</button>
           </Link>

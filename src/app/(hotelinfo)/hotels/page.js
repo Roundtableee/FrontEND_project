@@ -87,7 +87,7 @@ export default function HotelPage() {
         )
       );
     } catch (err) {
-      setError(err.message || 'Failed to update rating');
+      setError(err.message);
     }
   };
 
