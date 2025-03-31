@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import style from "./page.module.css";
 import Link from "next/link";
-import { Rating } from '@mui/material';
+import { Rating } from "@mui/material";
 
 export default function HotelInfoPage() {
   const { hid } = useParams();
   const [hotel, setHotel] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function HotelInfoPage() {
       if (!hid) return;
       const token = localStorage.getItem("token") || "";
       if (!token) {
-        setError("You must login first.");
+        setError("กรุณาเข้าสู่ระบบก่อน");
         return;
       }
 
@@ -34,7 +34,7 @@ export default function HotelInfoPage() {
         });
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.message || "Fetch hotel failed");
+          throw new Error(data.message || "ไม่สามารถดึงข้อมูลโรงแรมได้");
         }
         setHotel(data);
       } catch (err) {
@@ -45,18 +45,15 @@ export default function HotelInfoPage() {
     fetchHotel();
   }, [hid]);
 
-  const handleRatingChange = async (hid,newRating) => {
+  const handleRatingChange = async (hid, newRating) => {
     const token = localStorage.getItem("token") || "";
     if (!token) {
-      setError("You must login first.");
+      setError("กรุณาเข้าสู่ระบบก่อน");
       return;
     }
-    setHotels((prevHotels) =>
-      prevHotels.map((hotel) =>
-        hotel._id === hid ? { ...hotel, averageRating: newRating } : hotel
-      )
-    );
-  
+    // Optimistic update สำหรับคะแนนโรงแรม
+    setHotel(prevHotel => prevHotel ? { ...prevHotel, averageRating: newRating } : null);
+
     try {
       const res = await fetch(`https://backendproject-production-721b.up.railway.app/hotels/${hid}/rating`, {
         method: "POST",
@@ -66,24 +63,19 @@ export default function HotelInfoPage() {
         },
         body: JSON.stringify({ rating: newRating }),
       });
-  
       if (!res.ok) {
         throw new Error();
       }
-  
       const updatedHotel = await res.json();
-      setHotel((prevHotel) => ({
-        ...prevHotel,
-        averageRating: updatedHotel.averageRating,
-      }));
+      setHotel(prevHotel => prevHotel ? { ...prevHotel, averageRating: updatedHotel.averageRating } : null);
     } catch (err) {
       setError(err.message);
     }
   };
-  
+
   if (!isClient) return null;
   if (error) return <p className="text-red-500 mb-4">{error}</p>;
-  if (!hotel) return <p>Loading...</p>;
+  if (!hotel) return <p>กำลังโหลดข้อมูล...</p>;
 
   return (
     <div className={style.body}>
@@ -91,14 +83,20 @@ export default function HotelInfoPage() {
       <img src={hotel.picture} alt={hotel.name} className={style.cardImg} />
       <div className={style.card}>
         <div className={style.cardContent}>
-          <p><strong>Address:</strong> {hotel.address}</p>
-          <p><strong>District:</strong> {hotel.district}</p>
-          <p><strong>Province:</strong> {hotel.province}</p>
-          <p><strong>Postal Code:</strong> {hotel.postalcode}</p>
-          <p><strong>Phone:</strong> {hotel.phone}</p>
-          <p><strong>Daily Rate:</strong> {hotel.dailyrate} THB</p>
+          <p><strong>ที่อยู่:</strong> {hotel.address}</p>
+          <p><strong>เขต/อำเภอ:</strong> {hotel.district}</p>
+          <p><strong>จังหวัด:</strong> {hotel.province}</p>
+          <p><strong>รหัสไปรษณีย์:</strong> {hotel.postalcode}</p>
+          <p><strong>เบอร์โทร:</strong> {hotel.phone}</p>
+          <p><strong>อัตราค่าห้อง:</strong> {hotel.dailyrate} THB</p>
+          <Rating
+            name={`rating-${hotel._id}`}
+            value={hotel.averageRating}
+            precision={1}
+            onChange={(event, newValue) => handleRatingChange(hotel._id, newValue)}
+          />
           <Link href={`/bookings`}>
-          <button className={style.bookBtn}>Booking</button>
+            <button className={style.bookBtn}>จองห้องพัก</button>
           </Link>
         </div>
       </div>

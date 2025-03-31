@@ -6,19 +6,14 @@ import style from './page.module.css';
 
 export default function RegisterPage() {
   const router = useRouter();
-
-  // State สำหรับฟอร์ม
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // State สำหรับข้อความ error อื่น ๆ ที่มาจากเซิร์ฟเวอร์
-  const [error, setError] = useState(null);
-
-  // State สำหรับ error เฉพาะกรณีเบอร์โทร
+  const [error, setError] = useState('');
   const [phoneError, setPhoneError] = useState('');
 
+  // ถ้าผู้ใช้ล็อกอินอยู่แล้ว ให้ redirect ไปยังหน้าโรงแรม
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -28,32 +23,26 @@ export default function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError(null);       // เคลียร์ error อื่น ๆ
-    setPhoneError('');    // เคลียร์ phoneError
+    setError('');
+    setPhoneError('');
 
-    // ตรวจสอบเบอร์โทรให้ครบ 10 หลัก
+    // ตรวจสอบเบอร์โทร ต้องมี 10 หลัก
     if (phone.length !== 10) {
-      setPhoneError('Phone number must be 10 digits.');
-      return; // หยุดการทำงาน ไม่เรียก API ต่อ
+      setPhoneError('เบอร์โทรต้องมี 10 หลัก');
+      return;
     }
 
     try {
       const res = await fetch('https://backendproject-production-721b.up.railway.app/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          password,
-          role: 'user'
-        })
+        body: JSON.stringify({ name, phone, email, password, role: 'user' }),
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.message || 'Register failed');
+        throw new Error(data.message || 'การสมัครสมาชิกล้มเหลว');
       }
-      alert('Register success! Please login.');
+      alert('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ');
       router.push('/login');
     } catch (err) {
       setError(err.message);
@@ -63,14 +52,11 @@ export default function RegisterPage() {
   return (
     <div className={style.container}>
       <div className={style.card}>
-        <h2 className={style.header}>Register</h2>
-
-        {/* แสดง error จากเซิร์ฟเวอร์ (เช่น email ซ้ำ, ฯลฯ) */}
+        <h2 className={style.header}>สมัครสมาชิก</h2>
         {error && <p className={style.error}>{error}</p>}
-
         <form onSubmit={handleRegister} className={style.form}>
           <div className={style.inputGroup}>
-            <label className={style.label}>Name:</label>
+            <label className={style.label}>ชื่อ:</label>
             <input
               className={style.input}
               value={name}
@@ -78,42 +64,39 @@ export default function RegisterPage() {
               required
             />
           </div>
-
           <div className={style.inputGroup}>
-            <label className={style.label}>Phone:</label>
+            <label className={style.label}>เบอร์โทร:</label>
             <input
               className={style.input}
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
             />
-            {/* ถ้า phoneError ไม่ว่าง ให้แสดงข้อความเตือนใต้ช่องเบอร์โทร */}
             {phoneError && <p className={style.error}>{phoneError}</p>}
           </div>
-
           <div className={style.inputGroup}>
-            <label className={style.label}>Email:</label>
+            <label className={style.label}>อีเมล:</label>
             <input
               className={style.input}
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              type="email"
               required
             />
           </div>
-
           <div className={style.inputGroup}>
-            <label className={style.label}>Password:</label>
+            <label className={style.label}>รหัสผ่าน:</label>
             <input
               className={style.input}
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type="password"
               required
             />
           </div>
-
-          <button type="submit" className={style.submitButton}>Register</button>
+          <button type="submit" className={style.submitButton}>
+            สมัครสมาชิก
+          </button>
         </form>
       </div>
     </div>

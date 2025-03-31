@@ -1,32 +1,196 @@
-/* src/app/globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* ใส่ style อื่น ๆ (ถ้ามี) */
-
-
+/* กำหนดตัวแปรสีหลัก */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gold: #d4af37;          /* สีทอง */
+  --black: #000000;         /* สีดำ */
+  --dark-bg: #1a1a1a;       /* สีพื้นหลังเข้มสำหรับ card, nav */
+  --white: #ffffff;         /* สีขาว สำหรับข้อความ */
+  --error-red: #ff4d4d;     /* สีสำหรับข้อความ error */
+  --input-bg: #222222;      /* สีพื้นหลังของ input */
+  --transition-speed: 0.3s; /* ความเร็ว transition */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* สไตล์สำหรับ body และ layout ทั่วไป */
+.body {
+  background-color: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ------------------------ */
+/* สไตล์สำหรับ Navigation */
+/* ------------------------ */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--dark-bg);
+  padding: 15px 30px;
+  box-shadow: 0 2px 5px var(--gold);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.navlink,
+.adminlink,
+.loglink {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color var(--transition-speed);
+}
+
+.navlink:hover,
+.adminlink:hover,
+.loglink:hover {
+  color: var(--gold);
+}
+
+/* ------------------------ */
+/* สไตล์สำหรับ Container และ Card (Login/Register) */
+/* ------------------------ */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.card {
+  background-color: var(--dark-bg);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px var(--gold);
+  width: 100%;
+  max-width: 400px;
+}
+
+.header {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--gold);
+}
+
+.error {
+  color: var(--error-red);
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ------------------------ */
+/* สไตล์สำหรับ Form, Input, และ Button */
+/* ------------------------ */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--white);
+}
+
+.submitButton {
+  background-color: var(--gold);
+  color: var(--black);
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.submitButton:hover {
+  background-color: #b4912c;
+}
+
+/* ------------------------ */
+/* สไตล์สำหรับ Homepage */
+/* ------------------------ */
+.homepage {
+  padding: 40px;
+  text-align: center;
+}
+
+.homepage h1 {
+  font-size: 3rem;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+.homepage p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+/* ------------------------ */
+/* สไตล์สำหรับ Bookings Page */
+/* ------------------------ */
+.element2 {
+  margin-bottom: 30px;
+  background-color: var(--dark-bg);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.element3 {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.element4 {
+  background-color: var(--dark-bg);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px var(--gold);
+}
+
+.element5 {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ------------------------ */
+/* สไตล์สำหรับ Hotels Page */
+/* ------------------------ */
+.cardImg {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.cardContent {
+  padding: 15px;
+}
+
+.button {
+  background-color: var(--gold);
+  border: none;
+  padding: 10px 20px;
+  color: var(--black);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.button:hover {
+  background-color: #b4912c;
 }

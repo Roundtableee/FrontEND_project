@@ -1,59 +1,57 @@
 .body {
-    background-color: #f3f4f6;
-    margin: 0;
+    background-color: #000000; /* สีดำ */
+    color: #ffffff;
+    min-height: 100vh;
     padding: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.header {
+  }
+  
+  .header {
     text-align: center;
-    font-size: 40px;
-    font-weight: bold;
+    font-size: 2.5rem;
+    color: #d4af37;
     margin-bottom: 20px;
-    color: #333;
-    -webkit-text-stroke: 1px black;
-}
-
-.card {
-    background-color: antiquewhite;
-    width: 90%;
-    /* max-width: 600px; */
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    color: black;
-}
-
-.cardImg {
-    width: 80%;
-    height: 500px;
-    object-fit: cover;
-    border-radius: 15px;
-    display: block;
-    margin-bottom: 20px;
-}
-
-/* ปุ่ม Booking */
-.bookBtn {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 12px 20px;
+  }
+  
+  .error {
+    color: #ff4d4d;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .cardImg {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
     border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
     display: block;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-}
-
-.bookBtn:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
+    margin: 0 auto 20px;
+  }
+  
+  .card {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #d4af37;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .cardContent {
+    line-height: 1.6;
+  }
+  
+  .bookBtn {
+    background-color: #d4af37;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+  }
+  
+  .bookBtn:hover {
+    background-color: #b4912c;
+  }
+  

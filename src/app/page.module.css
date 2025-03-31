@@ -1,40 +1,43 @@
-.banner{
-    position: relative;  /* 🔹 เพิ่มอันนี้ */
-    background-color: #000;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-    font-size: 20px;
+.banner {
+    position: relative;
     width: 100%;
-    height: 855px;
-    display: flex;        /* จัดให้ h1 อยู่กลางภาพ */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; 
-}
-.bannerImg{
-    position: absolute;  /* 🔹 ทำให้ภาพอยู่ข้างหลัง */
+    height: 100vh;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .bannerImg {
+    object-fit: cover;
+  }
+  
+  .overlay {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    z-index: 0;
-}
-.bannerText1{
-    color: #fff;
-    font-size: 100px;
-    font-weight: bold;
-    -webkit-text-stroke: 1px black;
+    background-color: rgba(0, 0, 0, 0.5); /* overlay สีดำโปร่งแสง */
     z-index: 1;
-    margin-bottom: 5px;
-}
-.bannerText2{
-    color: #fff;
-    font-size: 50px;
-    font-weight: bold;
-    -webkit-text-stroke: 1px black;
-    z-index: 1;
-    margin-top: 0px;
-}
+  }
+  
+  .bannerContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+  }
+  
+  .bannerText1 {
+    font-size: 3rem;
+    color: #d4af37; /* สีทอง */
+    margin: 0;
+  }
+  
+  .bannerText2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-top: 10px;
+  }
+  

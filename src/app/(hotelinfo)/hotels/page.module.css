@@ -1,95 +1,65 @@
-/* General Styles */
 .body {
-    background-color: #f3f4f6;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  /* Header Styles */
-  .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 40px;
-    -webkit-text-stroke: 1px black;
-    font-size: 50px;
-    text-decoration: none;
-    color: #333; /* Text color */
-  }
-  
-  /* Card Styles */
-  .card {
-    background-color: antiquewhite;
-    margin: 20px;
-    padding: 15px;
-    border-radius: 15px;
-    color: #000;
-    display: flex;
-    flex-direction: row; /* Stack elements vertically */
-    align-items: flex-start;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-  }
-  
-  .cardImg {
-    width: 500px;
-    height: 300px; /* Adjust to fit card content */
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .cardContent {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 20px;
-  }
-  
-  .cardContent h4 {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  .cardContent p {
-    color: #555;
-    font-size: 0.9rem;
-    margin: 5px 0;
-  }
-  
-  /* Rating Styles */
-  .MuiRating-root {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  /* Button Styles */
-  .button {
-    background-color: #4A90E2;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #357ABD;
-  }
-  
-  /* Error Message Styling */
-  .error {
-    color: red;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  
+  background-color: #000000; /* สีดำ */
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  font-size: 2rem;
+  color: #d4af37;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: #ff4d4d;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #d4af37;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row; /* แสดงผลแบบแนวนอน */
+  align-items: center;
+  padding: 10px;
+}
+
+.cardImg {
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.cardContent {
+  text-align: left;
+}
+
+.hotelName {
+  font-size: 1.8rem; /* ขนาดตัวอักษรที่ใหญ่ขึ้น */
+  margin-bottom: 10px;
+  color: #d4af37;
+}
+
+.hotelDetail {
+  font-size: 1.2rem; /* ขยายขนาดตัวอักษรในรายละเอียด */
+  margin-bottom: 5px;
+}
+
+.button {
+  background-color: #d4af37;
+  color: #000000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #b4912c;
+}

@@ -1,180 +1,187 @@
-/* General Styles */
 .body {
-    background-color: #f8f9fc;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  .header {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #4A90E2;
-    padding-bottom: 10px;
-  }
-  
-  .error {
-    color: #e74c3c;
-    font-size: 1.1rem;
-    text-align: center;
-    margin-top: 1rem;
-    font-weight: bold;
-  }
-  
-  .element2 {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .element2 label {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 10px;
-  }
-  
-  .MuiSelect-root,
-  .MuiTextField-root,
-  .MuiDatePicker-root {
-    border-radius: 8px;
-    padding: 0.75rem;
-    font-size: 1rem;
-    color: #555;
-    border: 1px solid #ddd;
-    transition: all 0.3s ease;
-  }
-  
-  .MuiSelect-root:focus,
-  .MuiTextField-root:focus,
-  .MuiDatePicker-root:focus {
-    border-color: #4A90E2;
-    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
-  }
-  
-  .button[type="submit"] {
-    background-color: #4A90E2;
-    color: white;
-    border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .button[type="submit"]:hover {
-    background-color: #357ABD;
-  }
-  
-  /* Booking List */
-  .element3 {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    margin-top: 2rem;
-  }
-  
-  .element4 {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .element4:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  .element4 p {
-    margin: 0.8rem 0;
-    font-size: 1rem;
-    color: #444;
-  }
-  
-  .element4 strong {
-    color: #4A90E2;
-    font-weight: 600;
-  }
-  
-  .element5 {
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    margin-top: 1rem;
-  }
-  
-  .button {
-    padding: 0.6rem 1.2rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .button:hover {
-    opacity: 0.85;
-  }
-  
-  .button[variant="outlined"][color="warning"] {
-    background-color: #FFC107;
-    color: #333;
-    border: 1px solid #FFC107;
-  }
-  
-  .button[variant="outlined"][color="warning"]:hover {
-    background-color: #FF9800;
-    border-color: #FF9800;
-  }
-  
-  .button[variant="outlined"][color="error"] {
-    background-color: #FF4C4C;
-    color: white;
-    border: 1px solid #FF4C4C;
-  }
-  
-  .button[variant="outlined"][color="error"]:hover {
-    background-color: #E53935;
-    border-color: #E53935;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .element2 {
-      padding: 20px;
-    }
-  
-    .header {
-      font-size: 1.8rem;
-    }
-  
-    .element3 {
-      grid-template-columns: 1fr;
-    }
-  
-    .element4 {
-      padding: 15px;
-    }
-  
-    .element5 {
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-  }
-  
+  background-color: #000000; /* สีดำ */
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* **** ส่วนของฟอร์มจองใหม่ (MUI) **** */
+.formHeader {
+  font-size: 2rem;
+  color: #d4af37; /* สีทอง */
+  margin-bottom: 10px;
+  text-align: left;
+}
+.bookingForm {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+/* override MUI ในฟอร์มจองใหม่ */
+.bookingForm :global(.MuiOutlinedInput-root) {
+  color: #ffffff !important;
+  background-color: #222222 !important;
+}
+.bookingForm :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: #d4af37 !important;
+}
+.bookingForm :global(.MuiInputLabel-root) {
+  color: #ffffff !important;
+}
+.bookingForm :global(.MuiSvgIcon-root) {
+  color: #d4af37 !important; /* icon datepicker สีทอง */
+}
+
+.formLabel {
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.formSelect,
+.formInput {
+  font-size: 1.1rem;
+  background-color: #222222;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+/* DatePicker group (MUI create booking) */
+.dateGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ปุ่มจอง */
+.submitBtn {
+  background-color: #d4af37 !important;
+  color: #000000 !important;
+  padding: 10px 20px !important;
+  font-size: 1.2rem !important;
+  margin-top: 20px !important;
+  transition: background-color 0.3s;
+}
+.submitBtn:hover {
+  background-color: #b4912c !important;
+}
+
+/* **** แสดงรายการการจอง **** */
+.myBookingHeader {
+  text-align: left;
+  font-size: 2rem;
+  color: #d4af37;
+  margin: 20px 0 10px 0;
+}
+.error {
+  color: #ff4d4d;
+}
+.noBooking {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.bookingCard {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #d4af37;
+  font-size: 1.2rem;
+}
+.bookingHotel,
+.bookingDate,
+.bookingStatus {
+  margin-bottom: 8px;
+}
+.bookingActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.actionBtn {
+  font-size: 1rem !important;
+  text-transform: none !important;
+}
+
+/* **** Modal Update Booking (Custom) + React DatePicker **** */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7); /* มืดลง */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modalContainer {
+  background-color: #1a1a1a;
+  border: 1px solid #d4af37;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  box-shadow: 0 0 10px #d4af37;
+}
+.modalTitle {
+  font-size: 1.8rem;
+  color: #d4af37;
+  margin-bottom: 20px;
+}
+.modalLabel {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 6px;
+  display: block;
+}
+.modalDatePicker {
+  width: 100%;
+  font-size: 1.1rem;
+  background-color: #222222;
+  color: #ffffff;
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+/* ปุ่มใน Modal */
+.modalActions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.modalCancelBtn {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #d4af37;
+  font-size: 1rem;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.modalCancelBtn:hover {
+  background-color: #d4af37;
+  color: #000000;
+}
+.modalSubmitBtn {
+  background-color: #d4af37;
+  color: #000000;
+  border: none;
+  font-size: 1rem;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.modalSubmitBtn:hover {
+  background-color: #b4912c;
+}

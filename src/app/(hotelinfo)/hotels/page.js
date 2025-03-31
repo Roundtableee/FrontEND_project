@@ -8,31 +8,21 @@ import Link from 'next/link';
 
 export default function HotelPage() {
   const [hotels, setHotels] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // loading state
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token') || '';
-
-    // ดึงข้อมูลโรงแรมจาก backend
     const fetchHotels = async () => {
       try {
-        // ถ้า backend อนุญาตให้ GET /hotels ได้โดยไม่ต้องส่ง token ก็ส่ง headers แบบธรรมดา
-        // แต่ถ้าจะเผื่อกรณีส่ง token เมื่อมี ก็สามารถทำแบบด้านล่าง
-        const headers = {
-          'Content-Type': 'application/json',
-        };
+        const headers = { 'Content-Type': 'application/json' };
         if (token) {
           headers['Authorization'] = `Bearer ${token}`;
         }
-
-        const res = await fetch(
-          'https://backendproject-production-721b.up.railway.app/hotels',
-          { headers }
-        );
+        const res = await fetch('https://backendproject-production-721b.up.railway.app/hotels', { headers });
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.message || 'Fetch hotels failed');
+          throw new Error(data.message || 'ไม่สามารถดึงข้อมูลโรงแรมได้');
         }
         setHotels(data);
       } catch (err) {
@@ -44,46 +34,36 @@ export default function HotelPage() {
     fetchHotels();
   }, []);
 
-  // ฟังก์ชันเปลี่ยน Rating
   const handleRatingChange = async (hotelId, newRating) => {
     const token = localStorage.getItem('token') || '';
-    // ถ้าไม่มี token -> แจ้งเตือนว่า "You must login first."
     if (!token) {
-      setError('You must login first.');
+      setError('กรุณาเข้าสู่ระบบก่อน');
       return;
     }
 
-    // optimistic update: แก้ค่า rating ใน state ชั่วคราว
-    setHotels((prevHotels) =>
-      prevHotels.map((hotel) =>
+    // Optimistic update
+    setHotels(prevHotels =>
+      prevHotels.map(hotel =>
         hotel._id === hotelId ? { ...hotel, averageRating: newRating } : hotel
       )
     );
 
     try {
-      const res = await fetch(
-        `https://backendproject-production-721b.up.railway.app/${hotelId}/rating`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({ rating: newRating }),
-        }
-      );
-
+      const res = await fetch(`https://backendproject-production-721b.up.railway.app/${hotelId}/rating`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ rating: newRating }),
+      });
       if (!res.ok) {
         throw new Error();
       }
-
-      // ถ้าอัปเดต rating สำเร็จ -> ดึงค่า averageRating ใหม่จาก backend
       const updatedHotel = await res.json();
-      setHotels((prevHotels) =>
-        prevHotels.map((hotel) =>
-          hotel._id === hotelId
-            ? { ...hotel, averageRating: updatedHotel.averageRating }
-            : hotel
+      setHotels(prevHotels =>
+        prevHotels.map(hotel =>
+          hotel._id === hotelId ? { ...hotel, averageRating: updatedHotel.averageRating } : hotel
         )
       );
     } catch (err) {
@@ -93,34 +73,33 @@ export default function HotelPage() {
 
   return (
     <div className={style.body}>
-      <h2 className={style.header}>Hotels</h2>
+      <h2 className={style.header}>โรงแรม</h2>
       {error && <p className={style.error}>{error}</p>}
-
       {isLoading ? (
-        <p>Loading hotels...</p>
+        <p>กำลังโหลดข้อมูลโรงแรม...</p>
       ) : (
-        hotels.map((hotel) => (
+        hotels.map(hotel => (
           <div key={hotel._id} className={style.card}>
             <Image
               src={hotel.picture}
-              alt="Hotel Image"
-              width={300}
-              height={200}
+              alt={hotel.name}
+              width={250}
+              height={150}
               className={style.cardImg}
             />
             <div className={style.cardContent}>
-              <h4>{hotel.name}</h4>
-              <p>📍 {hotel.district}, {hotel.province}</p>
-              <p>📞 {hotel.phone}</p>
+              <h4 className={style.hotelName}>{hotel.name}</h4>
+              <p className={style.hotelDetail}>📍 {hotel.district}, {hotel.province}</p>
+              <p className={style.hotelDetail}>📞 {hotel.phone}</p>
               <Rating
                 name={`rating-${hotel._id}`}
                 value={hotel.averageRating}
                 precision={1}
                 onChange={(event, newValue) => handleRatingChange(hotel._id, newValue)}
               />
-              <p>THB {hotel.dailyrate}</p>
+              <p className={style.hotelDetail}>THB {hotel.dailyrate}</p>
               <Link href={`/hotels/${hotel._id}`}>
-                <button className={style.button}>View Details</button>
+                <button className={style.button}>ดูรายละเอียด</button>
               </Link>
             </div>
           </div>
