@@ -1,5 +1,5 @@
 .body {
-  background-color: #000000; /* สีดำ */
+  background-color: #000000;
   color: #ffffff;
   min-height: 100vh;
   padding: 20px;
@@ -24,7 +24,7 @@
   box-shadow: 0 0 10px #d4af37;
   margin-bottom: 20px;
   display: flex;
-  flex-direction: row; /* แสดงผลแบบแนวนอน */
+  flex-direction: row;
   align-items: center;
   padding: 10px;
 }
@@ -39,21 +39,22 @@
 }
 
 .hotelName {
-  font-size: 1.8rem; /* ขนาดตัวอักษรที่ใหญ่ขึ้น */
+  font-size: 1.8rem;
   margin-bottom: 10px;
   color: #d4af37;
 }
 
 .hotelDetail {
-  font-size: 1.2rem; /* ขยายขนาดตัวอักษรในรายละเอียด */
+  font-size: 1.2rem;
   margin-bottom: 5px;
 }
 
+/* Button styling (used by both pages) */
 .button {
   background-color: #d4af37;
-  color: #000000;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 20px;
+  color: #000000;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -62,4 +63,21 @@
 
 .button:hover {
   background-color: #b4912c;
+}
+
+/* Search box styling */
+.searchContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  width: 80%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  background-color: #222222;
+  color: #ffffff;
 }

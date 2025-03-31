@@ -1,43 +1,66 @@
 .banner {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    cursor: pointer;
-    overflow: hidden;
-  }
-  
-  .bannerImg {
-    object-fit: cover;
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* overlay สีดำโปร่งแสง */
-    z-index: 1;
-  }
-  
-  .bannerContent {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 2;
-  }
-  
-  .bannerText1 {
-    font-size: 3rem;
-    color: #d4af37; /* สีทอง */
-    margin: 0;
-  }
-  
-  .bannerText2 {
-    font-size: 1.5rem;
-    color: #ffffff;
-    margin-top: 10px;
-  }
-  
+  position: relative;
+  width: 100%;
+  height: 30vh; /* Reduced height */
+  overflow: hidden;
+}
+
+.bannerImg {
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay for text contrast */
+  z-index: 1;
+}
+
+.bannerContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 3.5rem;
+  color: #d4af37; /* Gold color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+}
+
+.slogan {
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Button section placed outside the banner */
+.buttonSection {
+  background-color: #000000; /* Black background */
+  padding: 20px 0;
+  text-align: center;
+}
+
+.button {
+  background-color: #d4af37;
+  color: #000000;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0 10px;
+}
+
+.button:hover {
+  background-color: #b4912c;
+}
