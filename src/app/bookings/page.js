@@ -1,5 +1,5 @@
 "use client";
-export const dynamic = 'force-client'; // ปิดการ SSR เพื่อป้องกัน hydration error
+export const dynamic = 'force-dynamic';
 
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
