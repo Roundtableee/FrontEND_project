@@ -4,8 +4,9 @@ export const dynamic = 'force-dynamic';
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import style from './page.module.css';
+import Swal from 'sweetalert2';
 
-/* ---- ส่วนของ MUI (เฉพาะฟอร์มจองใหม่) ---- */
+// MUI for Create Booking
 import {
   FormControl,
   InputLabel,
@@ -14,12 +15,13 @@ import {
   Button,
   TextField
 } from '@mui/material';
-import { DatePicker as MUIDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker as MUIDatePicker } from '@mui/x-date-pickers/DatePicker';
 
-/* ---- สำหรับการอัปเดตการจอง (React DatePicker + Custom Modal) ---- */
+// React DatePicker for Update Booking (Custom Modal)
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css'; // สไตล์พื้นฐานของ react-datepicker
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function BookingPage() {
   const [error, setError] = useState('');
@@ -29,24 +31,31 @@ export default function BookingPage() {
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
 
-  // State สำหรับ Modal และการแก้ไขการจอง (ไม่ใช้ MUI)
+  // State for custom modal (update booking)
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [bookingToUpdate, setBookingToUpdate] = useState(null);
   const [updateCheckIn, setUpdateCheckIn] = useState(null);
   const [updateCheckOut, setUpdateCheckOut] = useState(null);
 
-  // Token
-  const token = (typeof window !== 'undefined') ? localStorage.getItem('token') || '' : '';
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
   if (!token) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'กรุณาเข้าสู่ระบบก่อน',
+      customClass: {
+        popup: 'swal2-custom'
+      }
+    });
     return (
       <div className="m-8">
-        <h2 className="text-xl font-semibold mb-4">การจองของฉัน</h2>
-        <p className="text-red-500">กรุณาเข้าสู่ระบบก่อน</p>
+        <h2>การจองของฉัน</h2>
       </div>
     );
   }
 
-  // ฟังก์ชันดึงข้อมูล
+  // Fetch Data
   const fetchHotels = async () => {
     try {
       const res = await fetch('https://backendproject-production-721b.up.railway.app/hotels', {
@@ -57,6 +66,11 @@ export default function BookingPage() {
       setHotels(data);
     } catch (err) {
       setError(err.message);
+      Swal.fire({ icon: 'error', title: 'Error', text: err.message,
+        customClass: {
+          popup: 'swal2-custom'
+        }
+       });
     }
   };
 
@@ -70,22 +84,46 @@ export default function BookingPage() {
       setBookingList(data);
     } catch (err) {
       setError(err.message);
+      Swal.fire({ icon: 'error', title: 'Error', text: err.message,
+        customClass: {
+          popup: 'swal2-custom'
+        }
+       });
     }
   };
 
-  // เรียกดึงข้อมูลเมื่อ mount
   useEffect(() => {
     fetchHotels();
     fetchBookings();
   }, []);
 
-  // ฟังก์ชันสร้างการจองใหม่ (ใช้ MUI DatePicker)
+  // Create Booking
   const handleCreateBooking = async (e) => {
     e.preventDefault();
     setError('');
 
     if (!selectedHotel || !checkIn || !checkOut) {
-      alert('กรุณาเลือกโรงแรมและวันที่');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'กรุณาเลือกโรงแรมและวันที่',
+        customClass: {
+          popup: 'swal2-custom'
+        }
+      });
+      return;
+    }
+
+    // Check that checkOut is after checkIn
+    if (checkIn >= checkOut) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'วันที่เช็คเอาท์ต้องอยู่หลังเช็คอิน',
+        customClass: {
+          popup: 'swal2-custom'
+        }
+      });
       return;
     }
 
@@ -104,34 +142,72 @@ export default function BookingPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'การจองล้มเหลว');
-      alert('จองโรงแรมสำเร็จ!');
+      Swal.fire({
+        icon: 'success',
+        title: 'สำเร็จ',
+        text: 'จองโรงแรมสำเร็จ!',
+        customClass: {
+          popup: 'swal2-custom'
+        }
+      });
       fetchBookings();
       setSelectedHotel('');
       setCheckIn(null);
       setCheckOut(null);
     } catch (err) {
       setError(err.message);
+      Swal.fire({ icon: 'error', title: 'Error', text: err.message,
+        customClass: {
+          popup: 'swal2-custom'
+        }
+       });
     }
   };
 
-  // ฟังก์ชันลบการจอง
+  // Delete Booking
   const handleDeleteBooking = async (bookingId) => {
-    if (!window.confirm('คุณต้องการลบการจองนี้หรือไม่?')) return;
+    const result = await Swal.fire({
+      title: 'ยืนยันการลบ?',
+      text: 'คุณต้องการลบการจองนี้หรือไม่?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่, ลบเลย!',
+      cancelButtonText: 'ยกเลิก',
+      customClass: {
+        popup: 'swal2-custom'
+      }
+    });
+    if (!result.isConfirmed) return;
     try {
-      const res = await fetch(`https://backendproject-production-721b.up.railway.app/bookings/${bookingId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await fetch(
+        `https://backendproject-production-721b.up.railway.app/bookings/${bookingId}`,
+        {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'ไม่สามารถลบการจองได้');
-      alert('ลบการจองสำเร็จ');
+      Swal.fire({
+        icon: 'success',
+        title: 'สำเร็จ',
+        text: 'ลบการจองสำเร็จ',
+        customClass: {
+          popup: 'swal2-custom'
+        }
+      });
       fetchBookings();
     } catch (err) {
       setError(err.message);
+      Swal.fire({ icon: 'error', title: 'Error', text: err.message,
+        customClass: {
+          popup: 'swal2-custom'
+        }
+       });
     }
   };
 
-  // ฟังก์ชันเปิด Modal สำหรับแก้ไขการจอง
+  // Open Update Modal
   const handleOpenUpdateModal = (booking) => {
     setBookingToUpdate(booking);
     setUpdateCheckIn(new Date(booking.checkIn));
@@ -146,44 +222,68 @@ export default function BookingPage() {
     setUpdateCheckOut(null);
   };
 
-  // ฟังก์ชันยืนยันอัปเดต (ไม่ใช้ MUI)
+  // Submit Update Booking
   const handleSubmitUpdate = async (e) => {
     e.preventDefault();
     if (!updateCheckIn || !updateCheckOut) {
-      alert('กรุณาเลือกวันที่');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'กรุณาเลือกวันที่',
+        customClass: {
+          popup: 'swal2-custom'
+        }
+      });
+      return;
+    }
+    // Check that checkOut is after checkIn
+    if (updateCheckIn >= updateCheckOut) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'วันที่เช็คเอาท์ต้องอยู่หลังเช็คอิน',
+        customClass: {
+          popup: 'swal2-custom'
+        }
+      });
       return;
     }
 
     try {
-      const res = await fetch(`https://backendproject-production-721b.up.railway.app/bookings/${bookingToUpdate._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          // ตัด .toISOString().slice(0,10) เป็นรูป YYYY-MM-DD
-          checkIn: updateCheckIn.toISOString().slice(0,10),
-          checkOut: updateCheckOut.toISOString().slice(0,10),
-        })
-      });
+      const res = await fetch(
+        `https://backendproject-production-721b.up.railway.app/bookings/${bookingToUpdate._id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            checkIn: updateCheckIn.toISOString().slice(0,10),
+            checkOut: updateCheckOut.toISOString().slice(0,10)
+          })
+        }
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'ไม่สามารถอัปเดตการจองได้');
-      alert('อัปเดตการจองสำเร็จ!');
+      Swal.fire({ icon: 'success', title: 'สำเร็จ', text: 'อัปเดตการจองสำเร็จ!',customClass: {
+        popup: 'swal2-custom'
+      }});
       fetchBookings();
       handleCloseUpdateModal();
     } catch (err) {
       setError(err.message);
+      Swal.fire({ icon: 'error', title: 'Error', text: err.message,customClass: {
+        popup: 'swal2-custom'
+      } });
     }
   };
 
-  // ฟังก์ชันช่วยหา hotelName
   const findHotelName = (hotelId) => {
     const hotel = hotels.find(ht => ht._id === hotelId);
     return hotel ? hotel.name : `Unknown (ID: ${hotelId})`;
   };
 
-  // format วันที่
   const formatDate = (isoStr) => {
     if (!isoStr) return '';
     return format(new Date(isoStr), 'd MMMM yyyy');
@@ -191,7 +291,7 @@ export default function BookingPage() {
 
   return (
     <div className={style.body}>
-      {/* -------- ฟอร์มจองใหม่ (MUI) -------- */}
+      {/* Create Booking Form */}
       <h3 className={style.formHeader}>จองโรงแรม</h3>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <form onSubmit={handleCreateBooking} className={style.bookingForm}>
@@ -226,23 +326,30 @@ export default function BookingPage() {
           <Button type="submit" variant="contained" color="primary" className={style.submitBtn}>
             จองโรงแรม
           </Button>
-          {error && <p className={style.error}>{error}</p>}
         </form>
       </LocalizationProvider>
 
-      {/* -------- รายการการจอง -------- */}
+      {/* Booking List */}
       <h3 className={style.myBookingHeader}>การจองของฉัน</h3>
-      
+      {error && <p className={style.error}>{error}</p>}
       {bookingList.length === 0 ? (
         <p className={style.noBooking}>ไม่มีการจอง</p>
       ) : (
         <div className={style.bookingList}>
           {bookingList.map((booking) => (
             <div key={booking._id} className={style.bookingCard}>
-              <p className={style.bookingHotel}><strong>โรงแรม:</strong> {findHotelName(booking.hotelId)}</p>
-              <p className={style.bookingDate}><strong>เช็คอิน:</strong> {formatDate(booking.checkIn)}</p>
-              <p className={style.bookingDate}><strong>เช็คเอาท์:</strong> {formatDate(booking.checkOut)}</p>
-              <p className={style.bookingStatus}><strong>สถานะ:</strong> {booking.status || 'N/A'}</p>
+              <p className={style.bookingHotel}>
+                <strong>โรงแรม:</strong> {findHotelName(booking.hotelId)}
+              </p>
+              <p className={style.bookingDate}>
+                <strong>เช็คอิน:</strong> {formatDate(booking.checkIn)}
+              </p>
+              <p className={style.bookingDate}>
+                <strong>เช็คเอาท์:</strong> {formatDate(booking.checkOut)}
+              </p>
+              <p className={style.bookingStatus}>
+                <strong>สถานะ:</strong> {booking.status || 'N/A'}
+              </p>
               <div className={style.bookingActions}>
                 <Button
                   variant="outlined"
@@ -266,13 +373,11 @@ export default function BookingPage() {
         </div>
       )}
 
-      {/* -------- Modal Update Booking (ไม่ใช้ MUI) + React DatePicker -------- */}
+      {/* Custom Modal for Update Booking */}
       {showUpdateModal && (
         <div className={style.modalOverlay}>
           <div className={style.modalContainer}>
             <h2 className={style.modalTitle}>แก้ไขการจอง</h2>
-
-            {/* ฟอร์ม update */}
             <form onSubmit={handleSubmitUpdate}>
               <label className={style.modalLabel}>วันที่เช็คอินใหม่:</label>
               <DatePicker
@@ -281,7 +386,6 @@ export default function BookingPage() {
                 dateFormat="yyyy-MM-dd"
                 className={style.modalDatePicker}
               />
-
               <label className={style.modalLabel}>วันที่เช็คเอาท์ใหม่:</label>
               <DatePicker
                 selected={updateCheckOut}
@@ -289,8 +393,6 @@ export default function BookingPage() {
                 dateFormat="yyyy-MM-dd"
                 className={style.modalDatePicker}
               />
-              {error && <p className={style.error}>{error}</p>}
-
               <div className={style.modalActions}>
                 <button
                   type="button"
@@ -302,7 +404,6 @@ export default function BookingPage() {
                 <button type="submit" className={style.modalSubmitBtn}>
                   อัปเดต
                 </button>
-                
               </div>
             </form>
           </div>

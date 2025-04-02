@@ -116,8 +116,9 @@ export default function HotelPage() {
                 <Rating
                   name={`rating-${hotel._id}`}
                   value={hotel.averageRating}
-                  precision={1}
-                  onChange={(event, newValue) => handleRatingChange(hotel._id, newValue)}
+                  precision={0.5}
+                  //onChange={(event, newValue) => handleRatingChange(hotel._id, newValue)}
+                  readOnly
                 />
                 <p className={style.hotelDetail}>THB {hotel.dailyrate}</p>
                 <Link href={`/hotels/${hotel._id}`}>

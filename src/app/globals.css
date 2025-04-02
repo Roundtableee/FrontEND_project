@@ -194,3 +194,54 @@
 .button:hover {
   background-color: #b4912c;
 }
+/* Example SweetAlert2 styling for dark background and gold highlights */
+
+/* Base container, you can set font, etc. */
+.swal2-container {
+  font-family: Arial, sans-serif; /* Or your preferred font */
+}
+
+/* Our custom class for the popup */
+.swal2-popup.swal2-custom {
+  background-color: #1a1a1a; /* Dark background */
+  border: 1px solid #d4af37; /* Gold border */
+  color: #ffffff;            /* White text */
+  box-shadow: 0 0 10px #d4af37; /* optional gold glow */
+}
+
+/* Title text in gold */
+.swal2-custom .swal2-title {
+  color: #d4af37;
+}
+
+/* Text color for the main content of the popup */
+.swal2-custom .swal2-html-container {
+  color: #ffffff;
+}
+
+/* Confirm button in gold with dark text */
+.swal2-custom .swal2-styled.swal2-confirm {
+  background-color: #d4af37;
+  color: #000000;
+  border: none;
+  box-shadow: none;
+  margin: 0 5px;
+  transition: background-color 0.3s;
+}
+.swal2-custom .swal2-styled.swal2-confirm:hover {
+  background-color: #b4912c;
+}
+
+/* Cancel button: transparent with gold border and white text */
+.swal2-custom .swal2-styled.swal2-cancel {
+  background-color: transparent;
+  border: 1px solid #d4af37;
+  color: #ffffff;
+  box-shadow: none;
+  margin: 0 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.swal2-custom .swal2-styled.swal2-cancel:hover {
+  background-color: #d4af37;
+  color: #000000;
+}
