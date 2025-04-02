@@ -1,6 +1,6 @@
-Font End Vercel: https://front-end-project-ufhv.vercel.app/
-Back End Railway: https://backendproject-production-721b.up.railway.app/
-Figma: https://www.figma.com/proto/cKAVlvt7xDRRfkZyO5CfmV/Untitled?node-id=0-1&t=tszy2WklF0RXQM57-1
+FrontEnd Vercel: https://front-end-project-c53q.vercel.app/
+BackEnd Railway: https://backendproject-production-721b.up.railway.app/
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
